@@ -205,6 +205,25 @@ const supabaseClient = window.supabase.createClient(
   }
   message.textContent = "Дом создан! Код приглашения: " + data.invite_code;
 });
+  document.getElementById("joinHouseButton").addEventListener("click", async () => {
+  const inviteCode = document.getElementById("inviteCode").value.trim();
+  const memberName = document.getElementById("joinMemberName").value.trim();
+  const message = document.getElementById("joinMessage");
+
+  message.textContent = "Подключаем к дому…";
+
+  const { data, error } = await supabaseClient.rpc("join_household", {
+    p_invite_code: inviteCode,
+    p_member_name: memberName
+  });
+
+  if (error) {
+    message.textContent = "Не получилось присоединиться: " + error.message;
+    return;
+  }
+
+  message.textContent = "Ты присоединился к дому! 💗";
+});
 </script>
 </body>
 </html>
