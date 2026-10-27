@@ -181,6 +181,21 @@ const supabaseClient = window.supabase.createClient(
     ? "Ошибка входа: " + error.message
     : "Вход выполнен успешно!";
 });
+  document.getElementById("createHouseButton").addEventListener("click", async () => {
+  const name = document.getElementById("houseName").value.trim();
+  const memberName = document.getElementById("memberName").value.trim();
+  const message = document.getElementById("houseMessage");
+  message.textContent = "Создаём дом…";
+  const { data, error } = await supabaseClient.rpc("create_household", {
+    p_name: name,
+    p_member_name: memberName
+  });
+  if (error) {
+    message.textContent = "Не получилось создать дом: " + error.message;
+    return;
+  }
+  message.textContent = "Дом создан! Код приглашения: " + data.invite_code;
+});
 </script>
 </body>
 </html>
