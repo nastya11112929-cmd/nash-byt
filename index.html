@@ -1,0 +1,140 @@
+
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <title>Наш быт</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 24px 16px;
+      background: #f7f5ef; color: #26352e;
+      font: 16px system-ui, sans-serif;
+    }
+    main { max-width: 620px; margin: auto; }
+    h1 { font-size: 32px; margin-bottom: 6px; }
+    .sub { color: #69756d; margin-top: 0; }
+    .card {
+      background: white; border-radius: 18px;
+      padding: 18px; margin: 16px 0;
+      border: 1px solid #e9e7df;
+    }
+    .person { display: flex; gap: 8px; flex-wrap: wrap; }
+    button, select {
+      font: inherit; padding: 10px 14px;
+      border-radius: 12px; border: 1px solid #d9ded8;
+      background: white; color: #26352e;
+    }
+    button.active { background: #dcebe0; border-color: #8cae95; }
+    .task {
+      display: flex; align-items: flex-start;
+      gap: 12px; padding: 14px 0;
+      border-bottom: 1px solid #efeee8;
+    }
+    .task:last-child { border-bottom: 0; }
+    .task input { width: 20px; height: 20px; accent-color: #527d60; }
+    .task label { flex: 1; }
+    .who { display: block; color: #778078; font-size: 13px; margin-top: 4px; }
+    .done { text-decoration: line-through; color: #8b948c; }
+    .notice { background: #eef3ec; padding: 14px; border-radius: 12px; }
+    .small { font-size: 13px; color: #778078; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Наш быт 🏡</h1>
+  <p class="sub">Общие дела Насти и Димы</p>
+
+  <section class="card">
+    <strong>Кто сегодня выполняет задачи?</strong>
+    <div class="person" style="margin-top:12px">
+      <button class="active" data-person="Все">Все задачи</button>
+      <button data-person="Настя">Настя</button>
+      <button data-person="Дима">Дима</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <strong>Задачи на сегодня</strong>
+    <p class="small">Отмечайте дела по мере выполнения</p>
+    <div id="tasks"></div>
+  </section>
+
+  <section class="card">
+    <strong>Наши договорённости</strong>
+    <p>🧾 Коммунальные услуги — 50% / 50%</p>
+    <p>🛒 Продукты — Дима 70%, Настя 30%</p>
+    <p>🍲 Ужин — обычно готовит Настя</p>
+  </section>
+
+  <p class="notice" id="progress">Выполнено 0 задач</p>
+  <p class="small">Начальная версия. Общая синхронизация, аккаунты и напоминания подключим отдельно.</p>
+</main>
+
+<script>
+const tasks = [
+  {title:"Приготовить ужин", person:"Настя"},
+  {title:"Убрать столешницу и плиту после готовки", person:"Настя"},
+  {title:"Проверить продукты и список покупок", person:"Настя"},
+  {title:"Стирка и развешивание белья", person:"Настя"},
+  {title:"Протереть пыль и зеркала", person:"Настя"},
+  {title:"Проверить бытовые расходники", person:"Настя"},
+  {title:"Пропылесосить полы", person:"Дима"},
+  {title:"Помыть полы", person:"Дима"},
+  {title:"Почистить унитаз", person:"Дима"},
+  {title:"Убрать ванну, душ и раковину", person:"Дима"},
+  {title:"Вынести мусор при заполнении", person:"Дима"},
+  {title:"Загрузить посудомоечную машину за собой", person:"Все"},
+  {title:"Убрать собственные вещи", person:"Все"}
+];
+const key = "nash-byt-demo-checks";
+let checked = JSON.parse(localStorage.getItem(key) || "{}");
+let filter = "Все";
+function render() {
+  const root = document.getElementById("tasks");
+  root.innerHTML = "";
+  tasks.forEach((task, i) => {
+    if (filter !== "Все" && task.person !== filter && task.person !== "Все") return;
+    const row = document.createElement("div");
+    row.className = "task";
+    const box = document.createElement("input");
+    box.type = "checkbox";
+    box.checked = !!checked[i];
+    box.id = "task" + i;
+    box.addEventListener("change", () => {
+      checked[i] = box.checked;
+      localStorage.setItem(key, JSON.stringify(checked));
+      render();
+    });
+    const label = document.createElement("label");
+    label.htmlFor = box.id;
+    label.className = checked[i] ? "done" : "";
+    label.append(document.createTextNode(task.title));
+    const who = document.createElement("span");
+    who.className = "who";
+    who.textContent = task.person === "Все" ? "Каждый за собой" : task.person;
+    label.append(who);
+    row.append(box, label);
+    root.append(row);
+  });
+  const total = tasks.filter(t => filter === "Все" || t.person === filter || t.person === "Все");
+  const done = total.filter((t) => {
+    const i = tasks.indexOf(t);
+    return !!checked[i];
+  }).length;
+  document.getElementById("progress").textContent =
+    `Выполнено ${done} из ${total.length} задач`;
+}
+document.querySelectorAll("[data-person]").forEach(button => {
+  button.addEventListener("click", () => {
+    filter = button.dataset.person;
+    document.querySelectorAll("[data-person]").forEach(b => b.classList.toggle("active", b === button));
+    render();
+  });
+});
+render();
+</script>
+</body>
+</html>
