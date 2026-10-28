@@ -10,37 +10,82 @@
   <style>
     * { box-sizing: border-box; }
     body {
-      margin: 0; padding: 24px 16px;
-      background: #f7f5ef; color: #26352e;
+      margin: 0;
+      padding: 24px 16px;
+      background: #f7f5ef;
+      color: #26352e;
       font: 16px system-ui, sans-serif;
     }
     main { max-width: 620px; margin: auto; }
     h1 { font-size: 32px; margin-bottom: 6px; }
-    .sub { color: #69756d; margin-top: 0; }
+    .sub, .small { color: #69756d; }
     .card {
-      background: white; border-radius: 18px;
-      padding: 18px; margin: 16px 0;
+      background: white;
+      border-radius: 18px;
+      padding: 18px;
+      margin: 16px 0;
       border: 1px solid #e9e7df;
     }
-    .person { display: flex; gap: 8px; flex-wrap: wrap; }
-    button, select {
-      font: inherit; padding: 10px 14px;
-      border-radius: 12px; border: 1px solid #d9ded8;
-      background: white; color: #26352e;
+    .person {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
     }
-    button.active { background: #dcebe0; border-color: #8cae95; }
+    button {
+      font: inherit;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid #d9ded8;
+      background: white;
+      color: #26352e;
+      cursor: pointer;
+    }
+    button.active {
+      background: #dcebe0;
+      border-color: #8cae95;
+    }
+    input:not([type="checkbox"]) {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0 12px;
+      border: 1px solid #d9ded8;
+      border-radius: 10px;
+      font: inherit;
+    }
     .task {
-      display: flex; align-items: flex-start;
-      gap: 12px; padding: 14px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 0;
       border-bottom: 1px solid #efeee8;
     }
     .task:last-child { border-bottom: 0; }
-    .task input { width: 20px; height: 20px; accent-color: #527d60; }
+    .task input {
+      width: 20px;
+      height: 20px;
+      accent-color: #527d60;
+      flex-shrink: 0;
+    }
     .task label { flex: 1; }
-    .who { display: block; color: #778078; font-size: 13px; margin-top: 4px; }
+    .who {
+      display: block;
+      color: #778078;
+      font-size: 13px;
+      margin-top: 4px;
+    }
     .done { text-decoration: line-through; color: #8b948c; }
-    .notice { background: #eef3ec; padding: 14px; border-radius: 12px; }
-    .small { font-size: 13px; color: #778078; }
+    .notice {
+      background: #eef3ec;
+      padding: 14px;
+      border-radius: 12px;
+    }
+    .small { font-size: 13px; }
+    .message {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
   </style>
 </head>
 <body>
@@ -50,7 +95,7 @@
 
   <section class="card">
     <strong>Кто сегодня выполняет задачи?</strong>
-    <div class="person" style="margin-top:12px">
+    <div class="person">
       <button class="active" data-person="Все">Все задачи</button>
       <button data-person="Настя">Настя</button>
       <button data-person="Дима">Дима</button>
@@ -59,35 +104,42 @@
 
   <section class="card">
     <strong>Задачи на сегодня</strong>
-    <p class="small">Отмечайте дела по мере выполнения</p>
-<div id="loginBox" style="margin:20px 0;padding:16px;border:1px solid #ddd;border-radius:12px;">
-  <h2>Вход в «Наш быт»</h2>
-  <label for="loginEmail">Электронная почта</label>
-  <input id="loginEmail" type="email" placeholder="you@example.com" style="display:block;width:100%;padding:10px;margin:8px 0 12px;box-sizing:border-box;">
-  <label for="loginPassword">Пароль</label>
-  <input id="loginPassword" type="password" placeholder="Пароль" style="display:block;width:100%;padding:10px;margin:8px 0 12px;box-sizing:border-box;">
-  <button id="loginButton" type="button">Войти</button>
-  <p id="loginMessage"></p>
-</div>
-<div id="createHouseBox" style="margin:20px 0;padding:16px;border:1px solid #ddd;border-radius:12px;">
-  <h2>Наш общий дом 💗</h2>
-  <p>Создадим пространство для домашних задач Настюшки и Димасика.</p>
-  <label for="houseName">Название дома</label>
-  <input id="houseName" value="Домашние задачки Настюшки и Димасика" style="display:block;width:100%;padding:10px;margin:8px 0 12px;box-sizing:border-box;">
-  <label for="memberName">Твоё имя</label>
-  <input id="memberName" value="Настя" style="display:block;width:100%;padding:10px;margin:8px 0 12px;box-sizing:border-box;">
-  <button id="createHouseButton" type="button">Создать наш дом 💗</button>
-  <p id="houseMessage"></p>
-</div>
-<div id="joinHouseBox" style="margin:20px 0;padding:16px;border:1px solid #ddd;border-radius:12px;">
-  <h2>Присоединиться к нашему дому 💗</h2>
-  <label for="inviteCode">Код приглашения</label>
-  <input id="inviteCode" placeholder="Введи код приглашения" style="display:block;width:100%;padding:10px;margin:8px 0 12px;box-sizing:border-box;">
-  <label for="joinMemberName">Твоё имя</label>
-  <input id="joinMemberName" value="Дима" style="display:block;width:100%;padding:10px;margin:8px 0 12px;box-sizing:border-box;">
-  <button id="joinHouseButton" type="button">Присоединиться</button>
-  <p id="joinMessage"></p>
-</div>
+    <p class="small">
+      Отмечайте дела по мере выполнения — изменения сохраняются для обоих.
+    </p>
+
+    <div id="loginBox" style="margin:20px 0;padding:16px;border:1px solid #ddd;border-radius:12px;">
+      <h2>Вход в «Наш быт»</h2>
+      <label for="loginEmail">Электронная почта</label>
+      <input id="loginEmail" type="email" placeholder="you@example.com" autocomplete="email">
+      <label for="loginPassword">Пароль</label>
+      <input id="loginPassword" type="password" placeholder="Пароль" autocomplete="current-password">
+      <button id="loginButton" type="button">Войти</button>
+      <p id="loginMessage" class="message"></p>
+    </div>
+
+    <div id="createHouseBox" style="margin:20px 0;padding:16px;border:1px solid #ddd;border-radius:12px;">
+      <h2>Наш общий дом 💗</h2>
+      <p>Создадим пространство для домашних задач Настюшки и Димасика.</p>
+      <label for="houseName">Название дома</label>
+      <input id="houseName" value="Домашние задачки Настюшки и Димасика">
+      <label for="memberName">Твоё имя</label>
+      <input id="memberName" value="Настя">
+      <button id="createHouseButton" type="button">Создать наш дом 💗</button>
+      <p id="houseMessage" class="message"></p>
+    </div>
+
+    <div id="joinHouseBox" style="margin:20px 0;padding:16px;border:1px solid #ddd;border-radius:12px;">
+      <h2>Присоединиться к нашему дому 💗</h2>
+      <label for="inviteCode">Код приглашения</label>
+      <input id="inviteCode" placeholder="Введи код приглашения">
+      <label for="joinMemberName">Твоё имя</label>
+      <input id="joinMemberName" value="Дима">
+      <button id="joinHouseButton" type="button">Присоединиться</button>
+      <p id="joinMessage" class="message"></p>
+    </div>
+
+    <p id="appMessage" class="message"></p>
     <div id="tasks"></div>
   </section>
 
@@ -99,82 +151,285 @@
   </section>
 
   <p class="notice" id="progress">Выполнено 0 задач</p>
-  <p class="small">Начальная версия. Общая синхронизация, аккаунты и напоминания подключим отдельно.</p>
+  <p class="small">
+    Общие отметки сохраняются в Supabase. Задачи отображаются после входа в аккаунт.
+  </p>
 </main>
 
-<script>
-const tasks = [
-  {title:"Приготовить ужин", person:"Настя"},
-  {title:"Убрать столешницу и плиту после готовки", person:"Настя"},
-  {title:"Проверить продукты и список покупок", person:"Настя"},
-  {title:"Стирка и развешивание белья", person:"Настя"},
-  {title:"Протереть пыль и зеркала", person:"Настя"},
-  {title:"Проверить бытовые расходники", person:"Настя"},
-  {title:"Пропылесосить полы", person:"Дима"},
-  {title:"Помыть полы", person:"Дима"},
-  {title:"Почистить унитаз", person:"Дима"},
-  {title:"Убрать ванну, душ и раковину", person:"Дима"},
-  {title:"Вынести мусор при заполнении", person:"Дима"},
-  {title:"Загрузить посудомоечную машину за собой", person:"Все"},
-  {title:"Убрать собственные вещи", person:"Все"}
-];
-const key = "nash-byt-demo-checks";
-let checked = JSON.parse(localStorage.getItem(key) || "{}");
-let filter = "Все";
-function render() {
-  const root = document.getElementById("tasks");
-  root.innerHTML = "";
-  tasks.forEach((task, i) => {
-    if (filter !== "Все" && task.person !== filter && task.person !== "Все") return;
-    const row = document.createElement("div");
-    row.className = "task";
-    const box = document.createElement("input");
-    box.type = "checkbox";
-    box.checked = !!checked[i];
-    box.id = "task" + i;
-    box.addEventListener("change", () => {
-      checked[i] = box.checked;
-      localStorage.setItem(key, JSON.stringify(checked));
-      render();
-    });
-    const label = document.createElement("label");
-    label.htmlFor = box.id;
-    label.className = checked[i] ? "done" : "";
-    label.append(document.createTextNode(task.title));
-    const who = document.createElement("span");
-    who.className = "who";
-    who.textContent = task.person === "Все" ? "Каждый за собой" : task.person;
-    label.append(who);
-    row.append(box, label);
-    root.append(row);
-  });
-  const total = tasks.filter(t => filter === "Все" || t.person === filter || t.person === "Все");
-  const done = total.filter((t) => {
-    const i = tasks.indexOf(t);
-    return !!checked[i];
-  }).length;
-  document.getElementById("progress").textContent =
-    `Выполнено ${done} из ${total.length} задач`;
-}
-document.querySelectorAll("[data-person]").forEach(button => {
-  button.addEventListener("click", () => {
-    filter = button.dataset.person;
-    document.querySelectorAll("[data-person]").forEach(b => b.classList.toggle("active", b === button));
-    render();
-  });
-});
-render();
-</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const SUPABASE_URL = "https://struwogmibtbummoffcy.supabase.co";
-const SUPABASE_KEY = "sb_publishable__5GyImU_plqRFKELCtKi3A_VhWM_FfF";
+const SUPABASE_KEY = "sb_publishable__5GyImU_plqRFKELCtKi3A_VfF";
 
 const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
-  document.getElementById("loginButton").addEventListener("click", async () => {
+
+const root = document.getElementById("tasks");
+const appMessage = document.getElementById("appMessage");
+
+let filter = "Все";
+let currentUser = null;
+let currentMember = null;
+let householdId = null;
+let tasks = [];
+let occurrencesByTask = new Map();
+let busyTasks = new Set();
+
+function localDateString() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+function showMessage(text, isError = false) {
+  appMessage.textContent = text;
+  appMessage.style.color = isError ? "#a12a2a" : "#526b57";
+}
+
+function readableError(error) {
+  return error?.message || error?.details || "Неизвестная ошибка";
+}
+
+function setAuthVisibility(signedIn) {
+  document.getElementById("loginBox").style.display =
+    signedIn ? "none" : "block";
+}
+
+function personForTask(task) {
+  if (!task.assigned_to) return "Все";
+  return task._assignedMember?.name || "Все";
+}
+
+function render() {
+  root.innerHTML = "";
+
+  if (!currentUser) {
+    root.textContent = "Войди в аккаунт, чтобы увидеть общие задачи.";
+    document.getElementById("progress").textContent =
+      "Выполнено 0 задач";
+    return;
+  }
+
+  if (!householdId || !currentMember) {
+    root.textContent =
+      "Аккаунт открыт, но общий дом не найден. Создай дом или присоединись по коду.";
+    document.getElementById("progress").textContent =
+      "Выполнено 0 задач";
+    return;
+  }
+
+  if (!tasks.length) {
+    root.textContent = "В этом доме пока нет задач.";
+    document.getElementById("progress").textContent =
+      "Выполнено 0 задач";
+    return;
+  }
+
+  const visible = tasks.filter(task => {
+    const who = personForTask(task);
+    return filter === "Все" || who === filter || who === "Все";
+  });
+
+  visible.forEach(task => {
+    const occurrence = occurrencesByTask.get(task.id);
+    const isDone = occurrence?.status === "completed";
+
+    const row = document.createElement("div");
+    row.className = "task";
+
+    const box = document.createElement("input");
+    box.type = "checkbox";
+    box.checked = isDone;
+    box.disabled = busyTasks.has(task.id);
+    box.id = "task-" + task.id;
+
+    box.addEventListener("change", async () => {
+      const shouldComplete = box.checked;
+
+      busyTasks.add(task.id);
+      render();
+
+      try {
+        await saveTaskStatus(task, shouldComplete);
+        await loadOccurrences();
+        showMessage("Сохранено 💗");
+      } catch (error) {
+        showMessage(
+          "Не удалось сохранить отметку: " + readableError(error),
+          true
+        );
+      } finally {
+        busyTasks.delete(task.id);
+        render();
+      }
+    });
+
+    const label = document.createElement("label");
+    label.htmlFor = box.id;
+    label.className = isDone ? "done" : "";
+    label.append(document.createTextNode(task.title));
+
+    const who = document.createElement("span");
+    who.className = "who";
+    who.textContent =
+      personForTask(task) === "Все"
+        ? "Каждый за собой"
+        : personForTask(task);
+
+    label.append(who);
+    row.append(box, label);
+    root.append(row);
+  });
+
+  const done = visible.filter(
+    task => occurrencesByTask.get(task.id)?.status === "completed"
+  ).length;
+
+  document.getElementById("progress").textContent =
+    `Выполнено ${done} из ${visible.length} задач`;
+}
+
+async function loadOccurrences() {
+  if (!tasks.length) {
+    occurrencesByTask = new Map();
+    return;
+  }
+
+  const { data, error } = await supabaseClient
+    .from("task_occurrences")
+    .select("*")
+    .eq("scheduled_date", localDateString())
+    .in("task_id", tasks.map(task => task.id));
+
+  if (error) throw error;
+
+  occurrencesByTask = new Map();
+  (data || []).forEach(item => {
+    occurrencesByTask.set(item.task_id, item);
+  });
+}
+
+async function saveTaskStatus(task, complete) {
+  const existing = occurrencesByTask.get(task.id);
+
+  const values = {
+    status: complete ? "completed" : "pending",
+    completed_at: complete ? new Date().toISOString() : null,
+    completed_by: complete ? currentMember.id : null
+  };
+
+  if (existing) {
+    const { error } = await supabaseClient
+      .from("task_occurrences")
+      .update(values)
+      .eq("id", existing.id);
+
+    if (error) throw error;
+  } else {
+    const { error } = await supabaseClient
+      .from("task_occurrences")
+      .insert({
+        task_id: task.id,
+        scheduled_date: localDateString(),
+        ...values
+      });
+
+    if (error) throw error;
+  }
+}
+
+async function loadHouseholdAndTasks() {
+  const { data: memberRows, error: memberError } = await supabaseClient
+    .from("members")
+    .select("id, household_id, name, user_id")
+    .eq("user_id", currentUser.id);
+
+  if (memberError) throw memberError;
+
+  if (!memberRows?.length) {
+    currentMember = null;
+    householdId = null;
+    tasks = [];
+    render();
+    showMessage(
+      "Ты вошёл(ла), но для этого аккаунта ещё нет участника дома. Создай дом или присоединись по коду."
+    );
+    return;
+  }
+
+  currentMember = memberRows[0];
+  householdId = currentMember.household_id;
+
+  const { data: householdMembers, error: householdMembersError } =
+    await supabaseClient
+      .from("members")
+      .select("id, household_id, name, user_id")
+      .eq("household_id", householdId);
+
+  if (householdMembersError) throw householdMembersError;
+
+  const memberById = new Map(
+    (householdMembers || []).map(member => [member.id, member])
+  );
+
+  const { data: taskRows, error: taskError } = await supabaseClient
+    .from("tasks")
+    .select("id, household_id, title, assigned_to, frequency, times_per_period, active")
+    .eq("household_id", householdId)
+    .eq("active", true)
+    .order("created_at", { ascending: true });
+
+  if (taskError) throw taskError;
+
+  tasks = (taskRows || []).map(task => ({
+    ...task,
+    _assignedMember: task.assigned_to
+      ? memberById.get(task.assigned_to)
+      : null
+  }));
+
+  await loadOccurrences();
+  render();
+  showMessage("Общий дом загружен 💗");
+}
+
+async function refreshApp() {
+  const {
+    data: { user },
+    error
+  } = await supabaseClient.auth.getUser();
+
+  if (error) throw error;
+
+  currentUser = user;
+  setAuthVisibility(!!user);
+
+  if (!user) {
+    currentMember = null;
+    householdId = null;
+    tasks = [];
+    occurrencesByTask = new Map();
+    render();
+    return;
+  }
+
+  await loadHouseholdAndTasks();
+}
+
+document.querySelectorAll("[data-person]").forEach(button => {
+  button.addEventListener("click", () => {
+    filter = button.dataset.person;
+
+    document.querySelectorAll("[data-person]").forEach(item => {
+      item.classList.toggle("active", item === button);
+    });
+
+    render();
+  });
+});
+
+document.getElementById("loginButton").addEventListener("click", async () => {
   const email = document.getElementById("loginEmail").value.trim();
   const password = document.getElementById("loginPassword").value;
   const message = document.getElementById("loginMessage");
@@ -186,33 +441,71 @@ const supabaseClient = window.supabase.createClient(
     password
   });
 
-  message.textContent = error
-    ? "Ошибка входа: " + error.message
-    : "Вход выполнен успешно!";
+  if (error) {
+    message.textContent = "Ошибка входа: " + error.message;
+    return;
+  }
+
+  message.textContent = "Вход выполнен успешно!";
+
+  try {
+    await refreshApp();
+  } catch (error) {
+    showMessage(
+      "Вход выполнен, но не удалось загрузить дом: " + readableError(error),
+      true
+    );
+  }
 });
-  document.getElementById("createHouseButton").addEventListener("click", async () => {
+
+document.getElementById("createHouseButton").addEventListener("click", async () => {
   const name = document.getElementById("houseName").value.trim();
   const memberName = document.getElementById("memberName").value.trim();
   const message = document.getElementById("houseMessage");
+
+  if (!currentUser) {
+    message.textContent = "Сначала войди в аккаунт.";
+    return;
+  }
+
   message.textContent = "Создаём дом…";
+
   const { data, error } = await supabaseClient.rpc("create_household", {
     p_name: name,
     p_member_name: memberName
   });
+
   if (error) {
     message.textContent = "Не получилось создать дом: " + error.message;
     return;
   }
-  message.textContent = "Дом создан! Код приглашения: " + data.invite_code;
+
+  message.textContent =
+    "Дом создан! Код приглашения: " + data.invite_code;
+
+  try {
+    await refreshApp();
+  } catch (error) {
+    showMessage(
+      "Дом создан, но не удалось обновить список: " + readableError(error),
+      true
+    );
+  }
 });
-  document.getElementById("joinHouseButton").addEventListener("click", async () => {
+
+document.getElementById("joinHouseButton").addEventListener("click", async () => {
   const inviteCode = document.getElementById("inviteCode").value.trim();
   const memberName = document.getElementById("joinMemberName").value.trim();
   const message = document.getElementById("joinMessage");
 
+  if (!currentUser) {
+    message.textContent = "Сначала войди в аккаунт.";
+    return;
+  }
+
   message.textContent = "Подключаем к дому…";
 
-  const { data, error } = await supabaseClient.rpc("join_household", {
+  const { error } = await supabaseClient.rpc("join_household", {
     p_invite_code: inviteCode,
     p_member_name: memberName
   });
@@ -223,8 +516,37 @@ const supabaseClient = window.supabase.createClient(
   }
 
   message.textContent = "Ты присоединился к дому! 💗";
+
+  try {
+    await refreshApp();
+  } catch (error) {
+    showMessage(
+      "Подключение выполнено, но не удалось обновить список: " +
+      readableError(error),
+      true
+    );
+  }
+});
+
+supabaseClient.auth.onAuthStateChange((_event, session) => {
+  currentUser = session?.user || null;
+  setAuthVisibility(!!currentUser);
+
+  if (currentUser) {
+    setTimeout(() => {
+      refreshApp().catch(error => {
+        showMessage("Ошибка загрузки: " + readableError(error), true);
+      });
+    }, 0);
+  }
+});
+
+refreshApp().catch(error => {
+  showMessage(
+    "Не удалось загрузить приложение: " + readableError(error),
+    true
+  );
 });
 </script>
 </body>
 </html>
-
